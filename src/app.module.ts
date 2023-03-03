@@ -1,16 +1,21 @@
-import { Module } from '@nestjs/common';
+import {MiddlewareConsumer, Module, NestModule} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatsModule } from './cats/cats.module';
-import { UserModule } from './user/user.module';
+import {LoggerMiddleware} from "./logger/logger.middleware";
 
 @Module({
-  imports: [CatsModule, UserModule],  // 모듈을 연결시키는
+  imports: [CatsModule],  // 모듈을 연결시키는
   controllers: [AppController],
   providers: [AppService],  // AppService 가 바로 공급자다
 })
 // CatsModule, UserModule 이 생성되었으며, 여기서 AppModule 로 합쳐져서 메인에서 실행이 된다.
-export class AppModule {}
+// middleware logger 적용하기
+export class AppModule implements NestModule{
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');   // * 전체에 logger 바인딩
+  }
+}
 
 
 // providers : Nest 인젝터에 의해 인스턴스화되고 적어도 이 모듈에서 공유 될 수있는 공급자

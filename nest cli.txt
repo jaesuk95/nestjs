@@ -7,6 +7,5 @@ nest g co cats
 // service 생성
 nest g service cats
 
-
-
-nest g mo user
+// middleware create
+nest g middleware logger

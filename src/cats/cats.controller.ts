@@ -1,7 +1,7 @@
 import {Controller, Delete, Get, Patch, Post, Put} from '@nestjs/common';
 import {CatsService} from "./cats.service";
 
-@Controller('cats')
+@Controller('api/cats')
 export class CatsController {
     // 서비스
     constructor(private readonly catService: CatsService) {
