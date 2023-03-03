@@ -1,0 +1,12 @@
+// mo = module , creates a module
+nest g mo cats
+
+// controller 생성
+nest g co cats
+
+// service 생성
+nest g service cats
+
+
+
+nest g mo user
