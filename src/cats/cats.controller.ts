@@ -1,19 +1,39 @@
-import {Controller, Delete, Get, Patch, Post, Put} from '@nestjs/common';
+import {
+    Controller,
+    Delete,
+    Get,
+    HttpException,
+    Param,
+    ParseIntPipe,
+    Patch,
+    Post,
+    Put,
+    UseFilters
+} from '@nestjs/common';
 import {CatsService} from "./cats.service";
+import {HttpExceptionFilter} from "../exception/http-exception-filter";
 
 @Controller('api/cats')
+@UseFilters(HttpExceptionFilter)    // 전체적으로 exception 잡기
 export class CatsController {
     // 서비스
     constructor(private readonly catService: CatsService) {
     }
 
     @Get()
+    @UseFilters(HttpExceptionFilter)        // filtering
     getAllCat() {
+        // throw new HttpException('api is broken', 401);
+        // throw new HttpException({success: false, message: 'api is broken'}, 401);   // customException 여기서 아쉬운점 exception 을 하나로 만들자
+        throw new HttpException('api broken', 401); // 여기서 exception 이 터지면 filtering 으로 전달된다.
         return 'all cat';
     }
 
+    // ParseIntPipe = @PathVariable('id') Long id
     @Get(':id')
-    getCat() {
+    getCat(@Param('id', ParseIntPipe) param) {
+        console.log(param)
+        console.log(typeof param);
         return 'one cat';
     }
 
