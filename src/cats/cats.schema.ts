@@ -6,6 +6,9 @@ import {IsEmail, IsNotEmpty, IsString} from "class-validator";
 const options: SchemaOptions = {
     timestamps: true
 };
+//          timestamps examples
+//         "createdAt": "2023-03-04T16:26:10.658Z",
+//         "updatedAt": "2023-03-04T16:26:10.658Z",
 
 @Schema(options)
 export class Cat extends Document {
@@ -19,6 +22,8 @@ export class Cat extends Document {
     email: string;
 
     @Prop({required: true})
+    @IsString()
+    @IsNotEmpty()
     name: string;
 
     @Prop({
@@ -28,12 +33,20 @@ export class Cat extends Document {
     @IsNotEmpty()
     password: string;
 
-    @Prop({
-        required: true
-    })
+    @Prop()
     @IsString()
     imgUrl: string;
 
+    readonly readOnlyData: { id: string; email: string; name: string };
 }
 
 export const CatSchema = SchemaFactory.createForClass(Cat);
+
+// 필요한것만 리턴, 비밀번호는 제외
+CatSchema.virtual('readOnlyData').get(function (this:Cat) {
+    return {
+        id: this.id,
+        email: this.email,
+        name: this.name
+    };
+});

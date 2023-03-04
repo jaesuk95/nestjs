@@ -1,4 +1,5 @@
 import {
+    Body,
     Controller,
     Delete,
     Get,
@@ -8,18 +9,25 @@ import {
     Patch,
     Post,
     Put,
-    UseFilters, UseInterceptors
+    UseFilters,
+    UseInterceptors
 } from '@nestjs/common';
 import {CatsService} from "./cats.service";
 import {HttpExceptionFilter} from "../common/exception/http-exception-filter";
 import {SuccessInterceptor} from "../common/interceptor/success.interceptor";
+import {CatsRequestDto} from "./dto/cats.request.dto";
 
-@Controller('api/cats')
+@Controller('api/')
 @UseInterceptors(SuccessInterceptor)
 @UseFilters(HttpExceptionFilter)    // 전체적으로 exception 잡기
 export class CatsController {
     // 서비스
     constructor(private readonly catService: CatsService) {
+    }
+
+    @Post('public/register')
+    async signUp(@Body() body: CatsRequestDto) {
+        return await this.catService.signup(body);
     }
 
     @Get()
