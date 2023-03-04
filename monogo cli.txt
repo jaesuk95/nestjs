@@ -1,0 +1,11 @@
+// Mongoose installtion
+npm install --save @nestjs/mongoose mongoose
+
+
+// mongo db 에서 indexing 하겠다는 의미다, 하지만 mongoose 6 버전 이상 지원하기 않고 기본적으로 적용되어 있다.
+{
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+    }
