@@ -4,7 +4,8 @@ import { AppService } from './app.service';
 import { CatsModule } from './cats/cats.module';
 import {LoggerMiddleware} from "./common/logger/logger.middleware";
 import {MongooseModule} from "@nestjs/mongoose";
-import {ConfigModule} from "@nestjs/config";  // 환경 변수
+import {ConfigModule} from "@nestjs/config";
+import mongoose from "mongoose";  // 환경 변수
 
 @Module({
   imports: [
@@ -18,8 +19,13 @@ import {ConfigModule} from "@nestjs/config";  // 환경 변수
 // CatsModule, UserModule 이 생성되었으며, 여기서 AppModule 로 합쳐져서 메인에서 실행이 된다.
 // middleware logger 적용하기
 export class AppModule implements NestModule{
+
+  // dev 면 true, real 이면 false
+  private readonly isDev: boolean = process.env.MODE === 'dev' ? true : false;
+
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('*');   // * 전체에 logger 바인딩
+    mongoose.set('debug', this.isDev);  // 개발할때 mongoose 쿼리가 찍혀진다
   }
 }
 
