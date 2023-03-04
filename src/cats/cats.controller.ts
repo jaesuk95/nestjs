@@ -22,8 +22,7 @@ import {CatsRequestDto} from "./dto/cats.request.dto";
 @UseFilters(HttpExceptionFilter)    // 전체적으로 exception 잡기
 export class CatsController {
     // 서비스
-    constructor(private readonly catService: CatsService) {
-    }
+    constructor(private readonly catService: CatsService) {}
 
     @Post('public/register')
     async signUp(@Body() body: CatsRequestDto) {

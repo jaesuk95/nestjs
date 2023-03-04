@@ -7,6 +7,13 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class CatsService {
+
+    // DB 에 등록하기 위해서는 dependencyInjection 해줘야 한다
+    // Dependency Injection is basically providing the objects that an object
+    // needs instead of having its constructs them itself
+
+    // Once you have registered the schema, you can inject a Cat model into
+    // the CatService using the @InjectModel() decorator
     constructor(@InjectModel(Cat.name) private readonly catModel: Model<Cat>) {
     }
 
