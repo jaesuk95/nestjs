@@ -9,3 +9,7 @@ nest g service cats
 
 // middleware create
 nest g middleware logger
+
+
+// Class validator, validates such as email address
+npm i --save class-validator class-transformer
