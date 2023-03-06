@@ -22,6 +22,11 @@ async function bootstrap() {
 
   console.log(`swagger is initiating at ${process.env.SERVER_URL}/${swaggerURI}`)
 
+  app.enableCors({
+    origin: true,   // 다 허용
+    // origin: 'http://ocalhost:3000',
+    credentials: true
+  })
   await app.listen(PORT);
 }
 
