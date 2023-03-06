@@ -13,3 +13,11 @@ nest g middleware logger
 
 // Class validator, validates such as email address
 npm i --save class-validator class-transformer
+
+
+// fastify installation
+npm i --save @nestjs/platform-fastify
+
+// swagger installation
+npm install --save @nestjs/swagger swagger-ui-express
+npm install --save @nestjs/swagger fastify-swagger  // fastify 사용할 경우

@@ -1,13 +1,7 @@
 import {IsEmail, IsNotEmpty} from "class-validator";
+import {ApiProperty, PickType} from "@nestjs/swagger";
+import {Cat} from "../cats.schema";
 
-export class CatsRequestDto {
-    @IsEmail()
-    @IsNotEmpty()
-    email: string;
+export class CatsRequestDto extends PickType (Cat,['email', 'name', 'password'] as const) {
 
-    @IsNotEmpty()
-    password: string;
-
-    @IsNotEmpty()
-    name: string;
 }
