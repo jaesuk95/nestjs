@@ -30,4 +30,11 @@ export class CatsRepository {
     async findCatByEmail(email: string): Promise<Cat | null> {
         return this.catModel.findOne({email});
     }
+
+    async findCatByIdWithoutPassword(catId: string): Promise<Cat | null> {
+        // select('-password') 비밀번호만 제외만 모든 데이터 가져오기
+        return this.catModel.findById(catId).select('-password');
+        // 이름 + 이메일만 가져오기
+        // return this.catModel.findById(catId).select('email name');
+    }
 }
