@@ -6,8 +6,6 @@ import {JwtStrategy} from "./jwt/jwt.strategy";
 import {CatsModule} from "../cats/cats.module";
 import {ConfigModule} from "@nestjs/config";
 
-const SECRET_KEY = process.env.JWT_KEY;
-
 @Module({
     imports: [
         ConfigModule.forRoot(),
