@@ -1,0 +1,10 @@
+qwer.asdf.zxcv
+
+Header: qwer
+base64 인코딩 토큰의 타입과 알고리즘
+
+Payload: asdf
+base64 인도딩 데이터 (key-value) , 필요한 정보
+
+Signature: zxcv
+Header/Payload 를 조합하고 비밀키로 서명한 후, base64 로 인코딩

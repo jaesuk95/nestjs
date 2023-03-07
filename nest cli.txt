@@ -21,3 +21,18 @@ npm i --save @nestjs/platform-fastify
 // swagger installation
 npm install --save @nestjs/swagger swagger-ui-express
 npm install --save @nestjs/swagger fastify-swagger  // fastify 사용할 경우
+
+// JWT 관련
+npm install --save @nestjs/passport passport passport-local
+npm install --save-dev @types/passport-local
+
+npm install --save @nestjs/jwt passport-jwt
+npm install --save-dev @types/passport-jwt
+
+// auth
+nest g module auth
+nest g service auth
+
+// optional
+nest g module user
+nest g service user

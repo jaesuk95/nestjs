@@ -18,13 +18,18 @@ import {SuccessInterceptor} from "../common/interceptor/success.interceptor";
 import {CatsRequestDto} from "./dto/cats.request.dto";
 import {ApiOperation, ApiResponse} from "@nestjs/swagger";
 import {ReadOnlyCatDto} from "./dto/cat.dto";
+import {AuthService} from "../auth/auth.service";
+import {LoginRequestDto} from "../auth/dto/login.request.dto";
 
 @Controller('api/')
 @UseInterceptors(SuccessInterceptor)
 @UseFilters(HttpExceptionFilter)    // 전체적으로 exception 잡기
 export class CatsController {
     // 서비스
-    constructor(private readonly catService: CatsService) {}
+    constructor(
+        private readonly catService: CatsService,
+        private readonly authService: AuthService
+    ) {}
 
     // 회원가입
     @ApiOperation({summary: '회원가입'})    // 스웨거 전용
@@ -33,6 +38,13 @@ export class CatsController {
     @Post('public/register')
     async signUp(@Body() body: CatsRequestDto) {
         return await this.catService.signup(body);
+    }
+
+    @ApiOperation({summary: '로그인'})
+    @Post('public/login')
+    @UseFilters(HttpExceptionFilter)
+    async login(@Body() body: LoginRequestDto) {
+        return await this.authService.jwtLogIn(body)
     }
 
     @ApiOperation({summary: '전체조회'})    // 스웨거 전용

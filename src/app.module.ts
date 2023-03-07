@@ -5,13 +5,15 @@ import { CatsModule } from './cats/cats.module';
 import {LoggerMiddleware} from "./common/logger/logger.middleware";
 import {MongooseModule} from "@nestjs/mongoose";
 import {ConfigModule} from "@nestjs/config";
+import { AuthModule } from './auth/auth.module';
 import mongoose from "mongoose";  // 환경 변수
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.MONGODB_URL),
-    CatsModule
+    CatsModule,
+    AuthModule  // 자동 등록
   ],  // 모듈을 연결시키는
   controllers: [AppController],
   providers: [AppService],  // AppService 가 바로 공급자다

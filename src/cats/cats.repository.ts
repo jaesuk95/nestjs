@@ -1,4 +1,4 @@
-import {HttpException, Injectable} from "@nestjs/common";
+import {Injectable} from "@nestjs/common";
 import {InjectModel} from "@nestjs/mongoose";
 import {Cat} from "./cats.schema";
 import {Model} from "mongoose";
@@ -19,5 +19,15 @@ export class CatsRepository {
 
     async create(cat: CatsRequestDto): Promise<Cat> {
         return await this.catModel.create(cat);
+    }
+
+    // 실험으로 해본거
+    async findById(id: string): Promise<Cat> {
+        return this.catModel.findById(id);
+    }
+
+    // 해당 이메일 찾기
+    async findCatByEmail(email: string): Promise<Cat | null> {
+        return this.catModel.findOne({email});
     }
 }
