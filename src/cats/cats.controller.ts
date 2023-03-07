@@ -22,6 +22,7 @@ import {AuthService} from "../auth/auth.service";
 import {LoginRequestDto} from "../auth/dto/login.request.dto";
 import {JwtAuthGuard} from "../auth/jwt/jwt.guard";
 import { Request } from 'express';
+import {CurrentUser} from "../common/decorator/user.decorator";
 
 @Controller('api/')
 @UseInterceptors(SuccessInterceptor)
@@ -56,6 +57,16 @@ export class CatsController {
     getAllCat(@Req() request: Request) {
         return request.user;
     }
+
+    @ApiOperation({summary: '현재 고양이 가져오기 V2'})    // 스웨거 전용
+    @UseGuards(JwtAuthGuard)
+    @Get('public/profile/v2')
+    // @UseFilters(HttpExceptionFilter)        // filtering
+    currentUser(@CurrentUser() cat) {   // @SimpleUser 와 비슷한 개념이지만,
+        return cat.readOnlyData;
+    }
+
+    // 로그아웃은 필요가 없다, 이유, 프론트에서 토큰을 제거하면 된다.
 
     // throw new HttpException({success: false, message: 'api is broken'}, 401);   // customException 여기서 아쉬운점 exception 을 하나로 만들자
     // throw new HttpException('api broken', 401); // 여기서 exception 이 터지면 filtering 으로 전달된다.
