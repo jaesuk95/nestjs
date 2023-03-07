@@ -4,11 +4,13 @@ import {PassportModule} from "@nestjs/passport";
 import {JwtModule} from "@nestjs/jwt";
 import {JwtStrategy} from "./jwt/jwt.strategy";
 import {CatsModule} from "../cats/cats.module";
+import {ConfigModule} from "@nestjs/config";
 
 const SECRET_KEY = process.env.JWT_KEY;
 
 @Module({
     imports: [
+        ConfigModule.forRoot(),
         PassportModule.register({defaultStrategy: 'jwt', session: false}),  // session cookie 를 아직 사용하지 않아 false
         JwtModule.register({
             secret: `${process.env.TOKEN_SECRET}`,

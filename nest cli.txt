@@ -36,3 +36,6 @@ nest g service auth
 // optional
 nest g module user
 nest g service user
+
+// swagger 외부 보안, nest 도 express 위에 동작하기 때문에 사용 가능하다
+npm install express-basic-auth
