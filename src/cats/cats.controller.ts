@@ -8,7 +8,7 @@ import {
     ParseIntPipe,
     Patch,
     Post,
-    Put, Req,
+    Put, Req, UploadedFile,
     UseFilters, UseGuards,
     UseInterceptors
 } from '@nestjs/common';
@@ -23,6 +23,8 @@ import {LoginRequestDto} from "../auth/dto/login.request.dto";
 import {JwtAuthGuard} from "../auth/jwt/jwt.guard";
 import { Request } from 'express';
 import {CurrentUser} from "../common/decorator/user.decorator";
+import {FileInterceptor, FilesInterceptor} from "@nestjs/platform-express";
+import {multerOptions} from "../common/utils/multer.options";
 
 @Controller('api/')
 @UseInterceptors(SuccessInterceptor)
@@ -64,6 +66,22 @@ export class CatsController {
     // @UseFilters(HttpExceptionFilter)        // filtering
     currentUser(@CurrentUser() cat) {   // @SimpleUser 와 비슷한 개념이지만,
         return cat.readOnlyData;
+    }
+
+    // @ApiOperation({summary: '이미지 업로드'})
+    // @UseInterceptors(FileInterceptor('image'))
+    // @Post('image')
+    // uploadCatImage(@UploadedFile() file: Express.Multer.File) {
+    //     return 'uploadImage';
+    // }
+
+    @ApiOperation({summary: '다수 이미지 업로드'})
+    @UseInterceptors(FilesInterceptor('image', 10, multerOptions('cats')))
+    @Post('upload')
+    @UseGuards(JwtAuthGuard)
+    uploadMultipleFiles(@UploadedFile() files: Array<Express.Multer.File>) {
+        console.log(files);
+        return 'uploadImages';
     }
 
     // 로그아웃은 필요가 없다, 이유, 프론트에서 토큰을 제거하면 된다.

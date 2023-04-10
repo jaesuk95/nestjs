@@ -39,3 +39,7 @@ nest g service user
 
 // swagger 외부 보안, nest 도 express 위에 동작하기 때문에 사용 가능하다
 npm install express-basic-auth
+
+
+// file 을 업로드하기 위해서는 multer 를 사용해야 한다 (multipart/form-data)
+npm i -D @types/multer
