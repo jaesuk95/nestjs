@@ -37,4 +37,12 @@ export class CatsRepository {
         // 이름 + 이메일만 가져오기
         // return this.catModel.findById(catId).select('email name');
     }
+
+    async findByIdAndUpdateImg(id: string, filename: string) {
+        const cat = await this.catModel.findById(id);
+        cat.imgUrl = `${process.env.SERVER_URL}/media/${filename}`
+        const newCat = await cat.save();
+        console.log(newCat);
+        return newCat.readOnlyData;
+    }
 }

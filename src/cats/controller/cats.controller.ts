@@ -8,23 +8,24 @@ import {
     ParseIntPipe,
     Patch,
     Post,
-    Put, Req, UploadedFile,
+    Put, Req, UploadedFile, UploadedFiles,
     UseFilters, UseGuards,
     UseInterceptors
 } from '@nestjs/common';
-import {CatsService} from "./cats.service";
-import {HttpExceptionFilter} from "../common/exception/http-exception-filter";
-import {SuccessInterceptor} from "../common/interceptor/success.interceptor";
-import {CatsRequestDto} from "./dto/cats.request.dto";
+import {CatsService} from "../service/cats.service";
+import {HttpExceptionFilter} from "../../common/exception/http-exception-filter";
+import {SuccessInterceptor} from "../../common/interceptor/success.interceptor";
+import {CatsRequestDto} from "../dto/cats.request.dto";
 import {ApiOperation, ApiResponse} from "@nestjs/swagger";
-import {ReadOnlyCatDto} from "./dto/cat.dto";
-import {AuthService} from "../auth/auth.service";
-import {LoginRequestDto} from "../auth/dto/login.request.dto";
-import {JwtAuthGuard} from "../auth/jwt/jwt.guard";
+import {ReadOnlyCatDto} from "../dto/cat.dto";
+import {AuthService} from "../../auth/auth.service";
+import {LoginRequestDto} from "../../auth/dto/login.request.dto";
+import {JwtAuthGuard} from "../../auth/jwt/jwt.guard";
 import { Request } from 'express';
-import {CurrentUser} from "../common/decorator/user.decorator";
-import {FileInterceptor, FilesInterceptor} from "@nestjs/platform-express";
-import {multerOptions} from "../common/utils/multer.options";
+import {CurrentUser} from "../../common/decorator/user.decorator";
+import {FilesInterceptor} from "@nestjs/platform-express";
+import {multerOptions} from "../../common/utils/multer.options";
+import {Cat} from "../cats.schema";
 
 @Controller('api/')
 @UseInterceptors(SuccessInterceptor)
@@ -79,9 +80,11 @@ export class CatsController {
     @UseInterceptors(FilesInterceptor('image', 10, multerOptions('cats')))
     @Post('upload')
     @UseGuards(JwtAuthGuard)
-    uploadMultipleFiles(@UploadedFile() files: Array<Express.Multer.File>) {
+    uploadMultipleFiles(@UploadedFiles() files: Array<Express.Multer.File>, @CurrentUser() cat: Cat) {
         console.log(files);
-        return 'uploadImages';
+
+        // return { image: `${process.env.SERVER_URL}/media/cats/${files[0].filename}` };
+        return this.catService.uploadImage(cat, files);
     }
 
     // 로그아웃은 필요가 없다, 이유, 프론트에서 토큰을 제거하면 된다.
